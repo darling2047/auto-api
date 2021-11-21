@@ -31,7 +31,7 @@ class ZdhApiParamsParseServiceImplTest {
                 "\t\t\"isZip\": \"N\",\n" +
                 "\t\t\"format\": \"JSON\"\n" +
                 "\t},\n" +
-                "\t\"startID\": \"1\",\n" +
+                "\t\"startID\": 1,\n" +
                 "\t\"isSuccess\": true,\n" +
                 "\t\"data\": {\n" +
                 "\t\t\"measurePointID\": \"0000000000000000100015011000\",\n" +

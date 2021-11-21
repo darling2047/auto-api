@@ -20,7 +20,7 @@ public class ZdhApiValueBooleanProductServiceImpl implements ZdhApiValueProductS
 
 
     @Override
-    public Object getValueByRuleId(Integer ruleId, String paramValue) {
+    public Object getValueByRuleId(Integer ruleId, Object paramValue) {
         Object res = "";
         if (Objects.equals(BoolCaseRulesEnum.BOOL_11.getRuleId(),ruleId)) {
             return false;

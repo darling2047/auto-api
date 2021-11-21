@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.darling.auto.annotation.ApiValueProductCase;
 import com.darling.auto.constant.CommonConstant;
+import com.darling.auto.constant.ObjCaseRulesEnum;
 import com.darling.auto.exception.BusinessException;
 import com.darling.auto.mapper.ZdApiParamsRulesMapper;
 import com.darling.auto.mapper.ZdhApiParamsMapper;
@@ -15,7 +16,6 @@ import com.darling.auto.po.ZdApiParamsRules;
 import com.darling.auto.service.ZdhApiParamsObtainService;
 import com.darling.auto.service.ZdhApiParamsService;
 import com.darling.auto.service.ZdhApiValueProductService;
-import com.darling.auto.utils.ApiParamValueProdcutUtils;
 import com.darling.auto.utils.BeanCopierUtils;
 import org.springframework.stereotype.Service;
 
@@ -57,9 +57,6 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
         // 获取接口对应的测试用例
         List<ZdApiParamsCases> casesList = apiParamsService.getCasesByApiName(apiUrl);
         for (ZdApiParamsCases cases : casesList) {
-            if (Objects.equals(cases.getParamId(),7284) && Objects.equals(cases.getRuleId(),2)) {
-                System.out.println();
-            }
             ZdhApiCases item = BeanCopierUtils.convert(cases,ZdhApiCases.class);
             // 解析入库字段,拼接成json对象
             JSONObject res = parseApiParams(rootParams,cases);
@@ -121,14 +118,26 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
     }
 
     /**
+     * 获取json对象中随机一个key组成新对象返回
+     * @param json
+     * @return
+     */
+    private JSONObject getTempJSON(JSONObject json) {
+        JSONObject tempJson = new JSONObject();
+        Set<String> keySet = json.keySet();
+        for (String key : keySet) {
+            tempJson.put(key,json.get(key));
+            break;
+        }
+        return tempJson;
+    }
+
+    /**
      * 获取value
      * @param rootParam
      * @return
      */
     private Object getParamValue(ZdApiParams rootParam,ZdApiParamsCases cases) {
-        if (cases.getRuleId() == 2) {
-            System.out.println();
-        }
         Object paramValue = rootParam.getParamValue();
         ZdhApiValueProductService valueProductService = getApiValueCaseService(cases.getParamType());
         if (Objects.equals(rootParam.getId(),cases.getParamId())) {
@@ -185,7 +194,16 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
                 JSONArray jsonArr = getJSONArray(childParam,cases);
                 childJson.put(childParam.getParamKey(), jsonArr);
             }
-
+        }
+        // 根据规则生成测试用例对应的value
+        if (Objects.equals(rootParam.getId(), cases.getParamId())) {
+            ZdhApiValueProductService valueProductService = getApiValueCaseService(cases.getParamType());
+            Object tempObj = valueProductService.getValueByRuleId(cases.getRuleId(), childJson);
+            if (Objects.isNull(tempObj)) {
+                childJson = null;
+            }else {
+                childJson = JSONObject.parseObject(tempObj.toString());
+            }
         }
         return childJson;
     }

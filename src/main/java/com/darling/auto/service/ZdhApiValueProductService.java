@@ -15,6 +15,6 @@ public interface ZdhApiValueProductService {
      * @param paramValue
      * @return
      */
-    Object getValueByRuleId(Integer ruleId,String paramValue);
+    Object getValueByRuleId(Integer ruleId,Object paramValue);
 
 }

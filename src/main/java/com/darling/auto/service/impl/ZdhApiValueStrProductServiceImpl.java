@@ -20,7 +20,7 @@ public class ZdhApiValueStrProductServiceImpl implements ZdhApiValueProductServi
 
 
     @Override
-    public Object getValueByRuleId(Integer ruleId, String paramValue) {
+    public Object getValueByRuleId(Integer ruleId, Object paramValue) {
         Object res = "";
         if (Objects.equals(StrCaseRulesEnum.EMPTY_STR.getRuleId(),ruleId)) {
             res = " ";
@@ -33,7 +33,7 @@ public class ZdhApiValueStrProductServiceImpl implements ZdhApiValueProductServi
         }else if (Objects.equals(StrCaseRulesEnum.BEFORE_AFTER_EMPTY.getRuleId(),ruleId)) {
             res = " " + paramValue + " ";
         }else if (Objects.equals(StrCaseRulesEnum.MIDDLE_EMPTY.getRuleId(),ruleId)) {
-            char[] chars = paramValue.toCharArray();
+            char[] chars = paramValue.toString().toCharArray();
             String pra = "";
             for (int i = 0; i < chars.length; i++) {
                 pra += chars[i];
