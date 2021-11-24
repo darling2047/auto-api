@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="../common/bootstrap/css/bootstrap.min.css">
+</head>
+<body>
+<form action="/excel/import" method="post" enctype="multipart/form-data">
+    <p></p>
+    <div class="container">
+        <h3>1.员工信息上传</h3>
+        <label for="upExcel">
+            <div id="upExcelBtn" class="btn btn-default" type="button">选择Excel</div>
+        </label>
+        <input id="upExcel" name="multipartFile" style="display:none" type="file" name="upExcel">
+        <button class="btn btn-info">上传</button>
+    </div>
+</form>
+
+<script src="../common/jquery.js"></script>
+<script src="../common/bootstrap/js/bootstrap.js"></script>
+<script>
+    $('#upExcel').on('change', function () {
+        //alert($('#upVideo').val());  //绝对路径
+        //分割成数组，提取文件名
+        var arr = $('#upExcel').val().split('\\');
+        var fileName = arr[arr.length - 1];
+        $('#upExcelBtn').text(fileName);
+        $('#upExcelBtn').attr('class', 'btn btn-success');
+        if (!fileName) {
+            $('#upExcelBtn').text('选择Excel');
+            $('#upExcelBtn').attr('class', 'btn btn-default');
+        }
+    });
+</script>
+</body>
+</html>
