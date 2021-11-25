@@ -44,5 +44,10 @@ public class ZdApiParamsRules {
      */
     private Integer sort;
 
+    /**
+     * 数组里元素的类型
+     */
+    private String arrItemType;
+
 
 }

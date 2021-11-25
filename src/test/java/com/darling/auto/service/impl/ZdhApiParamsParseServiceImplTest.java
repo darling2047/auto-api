@@ -27,25 +27,14 @@ class ZdhApiParamsParseServiceImplTest {
     @Test
     void parseJsonParams() {
         String params = "{\n" +
-                "\t\"valueId\": \"taskName\",\n" +
-                "\t\"stype\": \"title\",\n" +
                 "\t\"defaultValue\": \"关于客户关怀着火点预警系统问题反馈\",\n" +
-                "\t\"dataType\": \"string\",\n" +
-                "\t\"icon\": \"icon-biaoti\",\n" +
-                "\t\"label\": \"工单标题\",\n" +
-                "\t\"type\": \"input\",\n" +
                 "\t\"isRule\": true,\n" +
-                "\t\"colspan\": 24,\n" +
-                "\t\"width\": \"100%\",\n" +
-                "\t\"disabled\": false,\n" +
-                "\t\"placeholder\": \"请输入\",\n" +
-                "\t\"key\": \"1630567711000_22152\",\n" +
-                "\t\"value\": \"关于客户关怀着火点预警系统问题反馈\",\n" +
-                "\t\"array\": [{\n" +
-                "\t\t\"name\": \"张三丰\"\n" +
-                "\t}, {\n" +
-                "\t\t\"name\": \"李思思\"\n" +
-                "\t}]\n" +
+                "\t\"array\": [\"张三丰\", \"李思思\"],\n" +
+                "\t\"width\": 100,\n" +
+                "\t\"obj\": {\n" +
+                "\t\t\"name\": \"lisisi\",\n" +
+                "\t\t\"age\": 18\n" +
+                "\t}\n" +
                 "}";
         ZdhApiCasesQuery param = new ZdhApiCasesQuery();
         param.setTestBody(JSONObject.parseObject(params));

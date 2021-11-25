@@ -121,7 +121,7 @@ public class ZdhApiParamsParseServiceImpl implements ZdhApiParamsParseService {
         JSONArray jsonArr = value;
         if (isInnerArr) {
             params.setParamType(CommonConstant.PARAMS_TYPE.ARRAY);
-            zdhApiParamsService.insertParam(params);
+            zdhApiParamsService.inserArrtParam(params,value,true);
         }
         for (int i = 0; i < jsonArr.size(); i++) {
             Object o = jsonArr.get(i);
@@ -132,6 +132,16 @@ public class ZdhApiParamsParseServiceImpl implements ZdhApiParamsParseService {
             }else if (o instanceof JSONArray) {
                 JSONArray tempArr = (JSONArray) o;
                 parseArr(apiName,params,tempArr,false,apiUrl);
+            }else if (o instanceof String || o instanceof Integer || o instanceof Boolean) {
+                ZdApiParams strParams = new ZdApiParams();
+                strParams.setParamType(CommonConstant.PARAMS_TYPE.STR);
+                strParams.setApiName(apiName);
+                strParams.setApiUrl(apiUrl);
+                strParams.setParamKey("");
+                strParams.setParamValue(o.toString());
+                strParams.setParentId(params.getId());
+                strParams.setArrIndex(i);
+                zdhApiParamsService.inserArrtParam(strParams,value,false);
             }else {
                 System.out.println("意料之外的类型");
             }

@@ -1,5 +1,6 @@
 package com.darling.auto.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -117,20 +118,6 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
 
     }
 
-    /**
-     * 获取json对象中随机一个key组成新对象返回
-     * @param json
-     * @return
-     */
-    private JSONObject getTempJSON(JSONObject json) {
-        JSONObject tempJson = new JSONObject();
-        Set<String> keySet = json.keySet();
-        for (String key : keySet) {
-            tempJson.put(key,json.get(key));
-            break;
-        }
-        return tempJson;
-    }
 
     /**
      * 获取value
@@ -215,9 +202,6 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
      */
     private JSONArray getJSONArray(ZdApiParams parentParam,ZdApiParamsCases cases) {
         JSONArray resArr = new JSONArray();
-        if (Objects.equals(parentParam.getParamKey(),"scene_name")) {
-            System.out.println();
-        }
         // 获取下级节点
         List<ZdApiParams> childParams = getChildParams(parentParam.getId());
         // 将数组里的元素按索引下标分组遍历
@@ -226,9 +210,13 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
         for (Integer indexItem : indexKey) {
             JSONObject objItem = new JSONObject();
             List<ZdApiParams> zdApiParams = map.get(indexItem);
+            // resArr是否已添加元素
+            boolean resArrIsAdd = false;
             for (ZdApiParams childParam : zdApiParams) {
-                if (Objects.equals(childParam.getParamKey(),"area_json")) {
-                    System.out.println();
+                if (StringUtils.isEmpty(childParam.getParamKey())) {
+                    resArr.add(childParam.getParamValue());
+                    resArrIsAdd = true;
+                    continue;
                 }
                 // 获取当前节点的类型
                 Integer childParamType = childParam.getParamType();
@@ -256,7 +244,19 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
                 }
 
             }
-            resArr.add(objItem);
+            if (!resArrIsAdd) {
+                resArr.add(objItem);
+            }
+        }
+        // 根据规则生成测试用例对应的value
+        if (Objects.equals(parentParam.getId(), cases.getParamId())) {
+            ZdhApiValueProductService valueProductService = getApiValueCaseService(cases.getParamType());
+            Object tempObj = valueProductService.getValueByRuleId(cases.getRuleId(), resArr);
+            if (Objects.isNull(tempObj)) {
+                resArr = null;
+            }else {
+                resArr = JSONArray.parseArray(tempObj.toString());
+            }
         }
         return resArr;
 

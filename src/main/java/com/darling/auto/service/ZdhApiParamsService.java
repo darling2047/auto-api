@@ -1,5 +1,6 @@
 package com.darling.auto.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.darling.auto.po.ZdApiParams;
 import com.darling.auto.po.ZdApiParamsCases;
 
@@ -15,7 +16,7 @@ import java.util.List;
 public interface ZdhApiParamsService {
 
     /**
-     * 保存接口参数
+     * 保存除数组外的接口参数
      * @param params
      * @return 新增记录的id
      */
@@ -27,4 +28,14 @@ public interface ZdhApiParamsService {
      * @return
      */
     List<ZdApiParamsCases> getCasesByApiName(String apiName);
+
+
+    /**
+     * 保存数组的接口参数
+     * @param params
+     * @param array
+     * @param isAddCase  是否需要添加测试用例  数组里的元素不需要添加测试用
+     * @return 新增记录的id
+     */
+    Integer inserArrtParam(ZdApiParams params, JSONArray array,boolean isAddCase);
 }
