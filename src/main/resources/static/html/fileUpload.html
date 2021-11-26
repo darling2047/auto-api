@@ -4,19 +4,36 @@
     <meta charset="UTF-8">
     <title>文件上传</title>
     <link rel="stylesheet" href="../common/bootstrap/css/bootstrap.min.css">
+
+    <style>
+        #upExcelBtn {
+            background-color: #3cdcf3e6;
+            width: 21rem;
+        }
+
+        .content {
+            width: 100px;
+            height: 100px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -50px 0 0 -50px;
+        }
+    </style>
 </head>
 <body>
-<form action="/zdh/apiCases/import" method="post" enctype="multipart/form-data">
-    <p></p>
-    <div class="container">
-        <h3>接口信息上传</h3>
-        <label for="upExcel">
-            <div id="upExcelBtn" class="btn btn-default" type="button">选择Excel</div>
-        </label>
-        <input id="upExcel" style="display:none" type="file" name="upExcel">
-        <button class="btn btn-info">上传</button>
-    </div>
-</form>
+<div class="content">
+    <form id="fileForm" method="post">
+        <p></p>
+        <div>
+            <label>接口信息上传</label>
+            <label for="upExcel">
+                <div id="upExcelBtn" class="btn btn-default" type="button">选择文件</div>
+            </label>
+            <input id="upExcel" style="display:none" type="file" name="upExcel">
+        </div>
+    </form>
+</div>
 
 <script src="../common/jquery.js"></script>
 <script src="../common/bootstrap/js/bootstrap.js"></script>
@@ -32,6 +49,29 @@
             $('#upExcelBtn').text('选择Excel');
             $('#upExcelBtn').attr('class', 'btn btn-default');
         }
+
+        // 准备上传文件
+        var files = $('#upExcel').prop('files');
+
+        var data = new FormData();
+        data.append('upExcel', files[0]);
+
+        $.ajax({
+            url: '/zdh/apiCases/import',
+            type: 'POST',
+            data: data,
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                alert(res);
+            },
+            error: function () {
+                alert("解析失败,请稍后重试!")
+            }
+        });
+
+
     });
 </script>
 </body>
