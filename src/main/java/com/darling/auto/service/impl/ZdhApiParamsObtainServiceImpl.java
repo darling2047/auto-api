@@ -1,13 +1,10 @@
 package com.darling.auto.service.impl;
 
-import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.darling.auto.annotation.ApiValueProductCase;
 import com.darling.auto.constant.CommonConstant;
-import com.darling.auto.constant.ObjCaseRulesEnum;
-import com.darling.auto.exception.BusinessException;
 import com.darling.auto.mapper.ZdApiParamsRulesMapper;
 import com.darling.auto.mapper.ZdhApiParamsMapper;
 import com.darling.auto.model.ZdhApiCases;
@@ -18,6 +15,7 @@ import com.darling.auto.service.ZdhApiParamsObtainService;
 import com.darling.auto.service.ZdhApiParamsService;
 import com.darling.auto.service.ZdhApiValueProductService;
 import com.darling.auto.utils.BeanCopierUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,7 +51,7 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
                 new QueryWrapper<ZdApiParams>().lambda().eq(ZdApiParams::getApiUrl, apiUrl)
                         .isNull(ZdApiParams::getParentId));
         if (rootParams.isEmpty()) {
-            throw new BusinessException("接口>>>" + apiUrl + "获取失败,请先解析接口入参再获取!");
+            return list;
         }
         // 获取接口对应的测试用例
         List<ZdApiParamsCases> casesList = apiParamsService.getCasesByApiName(apiUrl);
@@ -213,7 +211,7 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
             // resArr是否已添加元素
             boolean resArrIsAdd = false;
             for (ZdApiParams childParam : zdApiParams) {
-                if (StringUtils.isEmpty(childParam.getParamKey())) {
+                if (StringUtils.isBlank(childParam.getParamKey())) {
                     resArr.add(childParam.getParamValue());
                     resArrIsAdd = true;
                     continue;

@@ -9,6 +9,7 @@ import com.darling.auto.model.ZdhApiCases;
 import com.darling.auto.model.ZdhApiCasesExcel;
 import com.darling.auto.model.ZdhApiCasesExport;
 import com.darling.auto.model.ZdhApiCasesQuery;
+import com.darling.auto.service.ZdApiInfoService;
 import com.darling.auto.service.ZdhApiParamsObtainService;
 import com.darling.auto.service.ZdhApiParamsParseService;
 import com.darling.auto.utils.BeanCopierUtils;
@@ -43,6 +44,9 @@ public class ZdhApiCaseController {
     @Resource
     private ZdhApiParamsParseService paramsParseService;
 
+    @Resource
+    private ZdApiInfoService zdApiInfoService;
+
 
     @RequestMapping("/parseApiParams")
     public ResponResult parseApiParams(@RequestBody ZdhApiCasesQuery param) {
@@ -72,7 +76,7 @@ public class ZdhApiCaseController {
      */
     @RequestMapping("/import")
     public ResponResult uploadFile(@RequestParam("upExcel") MultipartFile file) throws IOException {
-        ZdApiImportListener listener = new ZdApiImportListener(paramsParseService);
+        ZdApiImportListener listener = new ZdApiImportListener(zdApiInfoService);
         EasyExcel.read(file.getInputStream(), ZdhApiCasesExcel.class, listener).sheet().doRead();
         return ResponResult.markSuccess("SUCCESS");
     }

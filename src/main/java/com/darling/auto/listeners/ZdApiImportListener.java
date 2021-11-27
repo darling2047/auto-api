@@ -3,10 +3,13 @@ package com.darling.auto.listeners;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.fastjson.JSONObject;
+import com.darling.auto.model.ZdApiInfoVo;
 import com.darling.auto.model.ZdhApiCasesExcel;
 import com.darling.auto.model.ZdhApiCasesQuery;
+import com.darling.auto.service.ZdApiInfoService;
 import com.darling.auto.service.ZdhApiParamsParseService;
 import com.darling.auto.utils.BeanCopierUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,13 +23,13 @@ import java.util.List;
  */
 public class ZdApiImportListener extends AnalysisEventListener<ZdhApiCasesExcel> {
 
-    private ZdhApiParamsParseService zdhApiParamsParseService;
+    private ZdApiInfoService zdApiInfoService;
 
     private List<ZdhApiCasesExcel> dataList;
 
-    public ZdApiImportListener(ZdhApiParamsParseService zdhApiParamsParseService) {
+    public ZdApiImportListener(ZdApiInfoService zdApiInfoService) {
         dataList = new ArrayList<>();
-        this.zdhApiParamsParseService = zdhApiParamsParseService;
+        this.zdApiInfoService = zdApiInfoService;
     }
 
     @Override
@@ -35,12 +38,10 @@ public class ZdApiImportListener extends AnalysisEventListener<ZdhApiCasesExcel>
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void doAfterAllAnalysed(AnalysisContext analysisContext) {
         for (ZdhApiCasesExcel zdhApiCasesExcel : dataList) {
-            JSONObject object = JSONObject.parseObject(zdhApiCasesExcel.getTestBody());
-            ZdhApiCasesQuery param = BeanCopierUtils.convert(zdhApiCasesExcel,ZdhApiCasesQuery.class);
-            param.setTestBody(object);
-            zdhApiParamsParseService.parseJsonParams(param);
+            zdApiInfoService.importApi(zdhApiCasesExcel);
         }
     }
 }
