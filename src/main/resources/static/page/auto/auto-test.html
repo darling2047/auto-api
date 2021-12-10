@@ -134,7 +134,28 @@
                     for (var rowsKey in rows) {
                         ids.push(rows[rowsKey].id);
                     }
-                    layer.close(index);
+                    $.ajax({
+                        url: '/apiInfo/delCases',
+                        type: 'POST',
+                        data: {"ids":ids.toString()},
+                        success: function (res) {
+                            if (res.status == 0) {
+                                alert("删除成功!");
+                                setTimeout(function () {
+                                    window.location.reload();
+                                },1000);
+                            }else {
+                                alert("删除失败："+res.msg);
+                            }
+                        },
+                        error: function () {
+                            alert("删除失败,请稍后重试!");
+                            setTimeout(function () {
+                                window.location.reload();
+                            },1000);
+
+                        }
+                    });
                 });
             }
         });
@@ -166,10 +187,14 @@
                 processData: false,
                 contentType: false,
                 success: function (res) {
-                    layer.alert("解析成功!");
-                    setTimeout(function () {
-                        window.location.reload();
-                    },1000);
+                    if (res.status == 0) {
+                        layer.alert("解析成功!");
+                        setTimeout(function () {
+                            window.location.reload();
+                        },1000);
+                    }else {
+                        layer.alert("解析失败："+res.msg);
+                    }
                 },
                 error: function () {
                     layer.alert("解析失败,请稍后重试!");

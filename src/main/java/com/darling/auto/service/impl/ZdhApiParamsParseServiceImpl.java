@@ -38,6 +38,11 @@ public class ZdhApiParamsParseServiceImpl implements ZdhApiParamsParseService {
         }
         // 获取入参的所有key
         Set<String> paramKeys = jsonObject.keySet();
+        // 判断该接口是否已上传
+        boolean exist = zdhApiParamsService.isExist(param.getApiUrl());
+        if (exist) {
+            throw new BusinessException(param.getApiUrl() + "已解析,直接下载用例即可");
+        }
         parseKey(paramKeys,jsonObject,null,param.getApiName(),null,param.getApiUrl());
 
     }

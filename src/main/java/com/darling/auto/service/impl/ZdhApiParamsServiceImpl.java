@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.darling.auto.constant.CommonConstant;
+import com.darling.auto.mapper.ZdApiInfoMapper;
 import com.darling.auto.mapper.ZdApiParamsCasesMapper;
 import com.darling.auto.mapper.ZdApiParamsRulesMapper;
 import com.darling.auto.mapper.ZdhApiParamsMapper;
+import com.darling.auto.po.ZdApiInfo;
 import com.darling.auto.po.ZdApiParams;
 import com.darling.auto.po.ZdApiParamsCases;
 import com.darling.auto.po.ZdApiParamsRules;
@@ -40,6 +42,9 @@ public class ZdhApiParamsServiceImpl implements ZdhApiParamsService {
     @Resource
     private ZdApiParamsCasesMapper casesMapper;
 
+    @Resource
+    private ZdApiInfoMapper zdApiInfoMapper;
+
     @Override
     public Integer insertParam(ZdApiParams params) {
         // 添加一条接口入参信息
@@ -63,6 +68,12 @@ public class ZdhApiParamsServiceImpl implements ZdhApiParamsService {
             initParamCases(params,array);
         }
         return params.getId();
+    }
+
+    @Override
+    public boolean isExist(String apiUrl) {
+        Integer count = zdApiInfoMapper.selectCount(new QueryWrapper<ZdApiInfo>().lambda().eq(ZdApiInfo::getApiUrl, apiUrl));
+        return count > 0;
     }
 
     /**

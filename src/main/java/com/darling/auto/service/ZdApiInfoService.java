@@ -32,4 +32,10 @@ public interface ZdApiInfoService {
      * @param zdhApiCasesExcel
      */
     void importApi(ZdhApiCasesExcel zdhApiCasesExcel);
+
+    /**
+     * 删除已生成用例的接口信息
+     * @param ids
+     */
+    void delCases(String ids);
 }

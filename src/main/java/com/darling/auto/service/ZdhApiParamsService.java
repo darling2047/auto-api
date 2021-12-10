@@ -38,4 +38,11 @@ public interface ZdhApiParamsService {
      * @return 新增记录的id
      */
     Integer inserArrtParam(ZdApiParams params, JSONArray array,boolean isAddCase);
+
+    /**
+     * 判断接口是否已经存在
+     * @param apiUrl
+     * @return
+     */
+    boolean isExist(String apiUrl);
 }

@@ -1,5 +1,6 @@
 package com.darling.auto.controller;
 
+import com.darling.auto.constant.ResponResult;
 import com.darling.auto.model.ZdApiInfoVo;
 import com.darling.auto.model.base.PaginationModel;
 import com.darling.auto.model.query.ZdApiInfoQuery;
@@ -34,5 +35,17 @@ public class ZdhApiInfoController {
         PaginationModel<ZdApiInfoVo> page = zdApiInfoService.getList(params);
         return page;
     }
+
+    /**
+     * 删除已生成用例的接口信息
+     * @param ids
+     * @return
+     */
+    @RequestMapping("/delCases")
+    public ResponResult delCases(String ids) {
+        zdApiInfoService.delCases(ids);
+        return ResponResult.markSuccess("删除成功!");
+    }
+
 
 }

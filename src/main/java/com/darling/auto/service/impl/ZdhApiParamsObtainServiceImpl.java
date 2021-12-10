@@ -125,9 +125,11 @@ public class ZdhApiParamsObtainServiceImpl implements ZdhApiParamsObtainService 
     private Object getParamValue(ZdApiParams rootParam,ZdApiParamsCases cases) {
         Object paramValue = rootParam.getParamValue();
         ZdhApiValueProductService valueProductService = getApiValueCaseService(cases.getParamType());
+        // 如果当前循环到的param表中的id等于当前用例的paramId，表示需要特殊处理生成case里ruleId对应规则value
         if (Objects.equals(rootParam.getId(),cases.getParamId())) {
             paramValue = valueProductService.getValueByRuleId(cases.getRuleId(),rootParam.getParamValue());
         }
+        // 如果二者不等,直接返回param里的value
         return paramValue;
     }
 

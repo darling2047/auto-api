@@ -4,7 +4,7 @@
 
     <insert id="insertParam" parameterType="com.darling.auto.po.ZdApiParams"
             useGeneratedKeys="true" keyProperty="params.id" keyColumn="id">
-        insert into Zd_Api_Params (api_Name,param_Key,param_Value,param_Type,parent_Id,arr_index,api_url)
+        insert into zd_api_params (api_Name,param_Key,param_Value,param_Type,parent_Id,arr_index,api_url)
         values (#{params.apiName},#{params.paramKey},#{params.paramValue},#{params.paramType},#{params.parentId}
         ,#{params.arrIndex},#{params.apiUrl})
     </insert>

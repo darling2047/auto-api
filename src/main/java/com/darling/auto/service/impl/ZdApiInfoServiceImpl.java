@@ -71,6 +71,14 @@ public class ZdApiInfoServiceImpl implements ZdApiInfoService {
         insert(apiInfoVo);
     }
 
+    @Override
+    public void delCases(String ids) {
+        String[] arr = ids.split(",");
+        for (String id : arr) {
+            zdApiInfoMapper.deleteById(Integer.parseInt(id));
+        }
+    }
+
     private QueryWrapper<ZdApiInfo> getQw(ZdApiInfoQuery params) {
         QueryWrapper<ZdApiInfo> qw = new QueryWrapper<>();
         if (StringUtils.isNotBlank(params.getApiName())) {
