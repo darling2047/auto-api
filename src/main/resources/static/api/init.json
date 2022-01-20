@@ -1,10 +1,10 @@
 {
   "homeInfo": {
     "title": "首页",
-    "href": "page/welcome-1.html?t=1"
+    "href": "page/auto/auto-case.html"
   },
   "logoInfo": {
-    "title": "LAYUI MINI",
+    "title": "AUTO TEST",
     "image": "images/logo.png",
     "href": ""
   },
@@ -23,7 +23,13 @@
           "child": [
             {
               "title": "接口用例管理",
-              "href": "page/auto/auto-test.html",
+              "href": "page/auto/auto-case.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "用例规则管理",
+              "href": "page/auto/auto-rule.html",
               "icon": "fa fa-tachometer",
               "target": "_self"
             }

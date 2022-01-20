@@ -1,19 +1,21 @@
-package com.darling.auto.po;
+package com.darling.auto.model;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 /**
- * @description: 测试用例规则表 zd_api_params_rules
+ * @description:
  * @author: dll
  * @date: Created in 2021/11/1 15:36
  * @version:
  * @modified By:
  */
 @Data
-public class ZdApiParamsRules {
+public class ZdApiParamsRulesVo {
 
     /**
      * 规则id
@@ -25,6 +27,11 @@ public class ZdApiParamsRules {
      * 适用的参数类型(1:普通字符串:2:对象;3:数组;4:布尔;5:整形)
      */
     private Integer paramType;
+
+    /**
+     * 参数类型名称
+     */
+    private String paramTypeName;
 
     /**
      * 规则对应的value值
@@ -51,6 +58,8 @@ public class ZdApiParamsRules {
      */
     private String arrItemType;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
 

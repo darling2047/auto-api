@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -30,6 +32,13 @@ public class ZdSystemController {
 
     @Resource
     private ZdSystemService systemService;
+
+    @RequestMapping("/main")
+    public void main (HttpServletResponse response) throws IOException {
+
+        response.sendRedirect("/page/login-1.html");
+
+    }
 
     @RequestMapping("/login")
     public ResponResult doLogin(String loginName, String password,
