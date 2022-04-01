@@ -22,9 +22,15 @@
           "target": "_self",
           "child": [
             {
+              "title": "README",
+              "href": "page/auto/readme.md",
+              "icon": "fa fa-eye",
+              "target": "_self"
+            },
+            {
               "title": "接口用例管理",
               "href": "page/auto/auto-case.html",
-              "icon": "fa fa-tachometer",
+              "icon": "fa fa-book",
               "target": "_self"
             },
             {

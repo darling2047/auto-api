@@ -48,9 +48,10 @@
             <div class="layui-btn-container">
                 <div>
                     <label for="upExcel">
-                        <div id="upExcelBtn" class="layui-btn layui-btn-normal" type="button">选择文件</div>
+                        <div id="upExcelBtn" class="layui-btn layui-btn-normal data-add-btn" type="button">生成用例</div>
                     </label>
                     <input id="upExcel" style="display:none" type="file" name="upExcel">
+                    <button class="layui-btn layui-btn-normal data-add-btn" lay-event="caseDownLoad"> 模板下载 </button>
                     <button class="layui-btn layui-btn-normal layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
                 </div>
             </div>
@@ -119,8 +120,8 @@
          * toolbar监听事件
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
-            if (obj.event === 'add') {  // 监听添加操作
-
+            if (obj.event === 'caseDownLoad') {  // 监听添加操作
+                window.location.href = "http://localhost:9090/zdh/apiCases/getTemplate";
             } else if (obj.event === 'delete') {  // 监听删除操作
                 var checkStatus = table.checkStatus('currentTableId')
                 var rows = checkStatus.data;
