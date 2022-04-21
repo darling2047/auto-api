@@ -121,7 +121,7 @@
          */
         table.on('toolbar(currentTableFilter)', function (obj) {
             if (obj.event === 'caseDownLoad') {  // 监听添加操作
-                window.location.href = "http://localhost:9090/zdh/apiCases/getTemplate";
+                window.location.href = "http://121.199.58.24:9090//zdh/apiCases/getTemplate";
             } else if (obj.event === 'delete') {  // 监听删除操作
                 var checkStatus = table.checkStatus('currentTableId')
                 var rows = checkStatus.data;
