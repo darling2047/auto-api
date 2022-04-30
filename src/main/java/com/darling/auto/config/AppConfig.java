@@ -20,6 +20,7 @@ public class AppConfig implements WebMvcConfigurer {
 		registry.addInterceptor(tokenInterceptor()).addPathPatterns("/**")
 			.excludePathPatterns("/system/login/**",
 					"/api/**",
+					"/apiInfo/testCache",
 					"/html/**",
 					"/images/**",
 					"/common/**",

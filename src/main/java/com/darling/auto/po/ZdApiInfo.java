@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Date;
  * @modified By:
  */
 @Data
-public class ZdApiInfo {
+public class ZdApiInfo implements Serializable {
 
     /**
      * 入参唯一标识

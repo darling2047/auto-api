@@ -12,7 +12,9 @@ import com.darling.auto.po.ZdApiInfo;
 import com.darling.auto.service.ZdApiInfoService;
 import com.darling.auto.service.ZdhApiParamsParseService;
 import com.darling.auto.utils.BeanCopierUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,7 @@ import java.util.List;
  * @modified By:
  */
 @Service
+@Slf4j
 public class ZdApiInfoServiceImpl implements ZdApiInfoService {
 
     @Resource
@@ -36,7 +39,14 @@ public class ZdApiInfoServiceImpl implements ZdApiInfoService {
     private ZdhApiParamsParseService zdhApiParamsParseService;
 
 
+    /**
+     * 设置sync=true可以使底层将缓存锁住，使只有一个线程可以进入数据库查询，
+     * 而其他线程堵塞，直到返回结果更新到缓存中，可以解决缓存穿透的问题
+     * @param params
+     * @return
+     */
     @Override
+    @Cacheable(cacheNames = "getList",sync = true)
     public PaginationModel<ZdApiInfoVo> getList(ZdApiInfoQuery params) {
         PaginationModel<ZdApiInfoVo> res = new PaginationModel<>();
         QueryWrapper<ZdApiInfo> qw = getQw(params);
@@ -77,6 +87,16 @@ public class ZdApiInfoServiceImpl implements ZdApiInfoService {
         for (String id : arr) {
             zdApiInfoMapper.deleteById(Integer.parseInt(id));
         }
+    }
+
+    @Override
+    @Cacheable(cacheNames = "testCache",sync = true)
+    public ZdApiInfo testCache(Integer id) {
+        QueryWrapper<ZdApiInfo> qw = new QueryWrapper<>();
+        qw.lambda().eq(ZdApiInfo::getId,id);
+        ZdApiInfo zdApiInfo = zdApiInfoMapper.selectById(id);
+        log.info("没走缓存......");
+        return zdApiInfo;
     }
 
     private QueryWrapper<ZdApiInfo> getQw(ZdApiInfoQuery params) {

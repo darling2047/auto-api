@@ -4,8 +4,8 @@ import com.darling.auto.constant.ResponResult;
 import com.darling.auto.model.ZdApiInfoVo;
 import com.darling.auto.model.base.PaginationModel;
 import com.darling.auto.model.query.ZdApiInfoQuery;
+import com.darling.auto.po.ZdApiInfo;
 import com.darling.auto.service.ZdApiInfoService;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +45,17 @@ public class ZdhApiInfoController {
     public ResponResult delCases(String ids) {
         zdApiInfoService.delCases(ids);
         return ResponResult.markSuccess("删除成功!");
+    }
+
+    /**
+     * 测试缓存穿透、击穿
+     * @param id
+     * @return
+     */
+    @RequestMapping("/testCache")
+    public ResponResult testCache(Integer id) {
+        ZdApiInfo zdApiInfo = zdApiInfoService.testCache(id);
+        return ResponResult.markSuccess(zdApiInfo);
     }
 
 

@@ -4,6 +4,7 @@ import com.darling.auto.model.ZdApiInfoVo;
 import com.darling.auto.model.ZdhApiCasesExcel;
 import com.darling.auto.model.base.PaginationModel;
 import com.darling.auto.model.query.ZdApiInfoQuery;
+import com.darling.auto.po.ZdApiInfo;
 
 /**
  * @description: 接口描述信息
@@ -38,4 +39,10 @@ public interface ZdApiInfoService {
      * @param ids
      */
     void delCases(String ids);
+
+    /**
+     * 测试缓存穿透、击穿
+     * @return
+     */
+    ZdApiInfo testCache(Integer id);
 }

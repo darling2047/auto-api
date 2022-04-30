@@ -3,6 +3,7 @@ package com.darling.auto.model;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  * @modified By:
  */
 @Data
-public class ZdApiInfoVo {
+public class ZdApiInfoVo implements Serializable {
 
     /**
      * 入参唯一标识
